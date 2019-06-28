@@ -16,7 +16,7 @@ def index():
         list_dungeonName = list_dungeonName
         )
 
-@app.route('/<dungeon>', methods=['GET', 'POST'])
+@app.route('/paddungeon/<dungeon>', methods=['GET', 'POST'])
 def dungeonPage(dungeon):
     if request.method == 'POST':
         return redirect(url_for('index'))
