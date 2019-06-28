@@ -11,8 +11,105 @@
 
   <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
   <!-- <link rel="stylesheet" href="https://bootswatch.com/3/slate/bootstrap.min.css"> -->
-  <link rel="stylesheet" href="http://pad.skyozora.com/css/style.css?2018080414">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js" charset="utf-8"></script>
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='dungeonPage.css') }}">
+  <!-- <link type="text/css" rel="stylesheet" href="http://pad.skyozora.com/css/mobile.css?2016052301"> -->
+  <!-- <link type="text/css" rel="stylesheet" href="http://pad.skyozora.com/css/slicknav.css?201704220141"> -->
 
+  <style>
+    img.up {
+      padding:2px 0px 2px 0px; 
+      width:40px;
+      height:40px;
+    }
+    .skill img{
+       max-width:15px;
+    }
+    .skill_demage {
+       font-size:x-small;
+    }
+  </style>
+
+<!--   <style>
+    img.scap { 
+       width:120px;
+    }
+    .header {
+       position:absolute;
+      z-index:999999;
+    }
+    img.small { 
+       width:15px;
+    }
+    .content img{
+       max-width:100%;
+    }
+    .page{
+       background-color: #000000;
+       margin-right:3px;
+       padding: 4px 8px;
+    }
+    .currentpage{
+       background-color: #181818;
+       margin-right:3px;
+       padding: 4px 8px;
+    }
+    h3 {
+       background: -moz-linear-gradient(left,  rgba(0,75,132,0.65) 0%, rgba(0,0,0,0) 100%); /* FF3.6+ */
+       background: -webkit-gradient(linear, left top, right top, color-stop(0%,rgba(0,75,132,0.65)), color-stop(100%,rgba(0,0,0,0))); /* Chrome,Safari4+ */
+       background: -webkit-linear-gradient(left,  rgba(0,75,132,0.65) 0%,rgba(0,0,0,0) 100%); /* Chrome10+,Safari5.1+ */
+       background: -o-linear-gradient(left,  rgba(0,75,132,0.65) 0%,rgba(0,0,0,0) 100%); /* Opera 11.10+ */
+       background: -ms-linear-gradient(left,  rgba(0,75,132,0.65) 0%,rgba(0,0,0,0) 100%); /* IE10+ */
+       background: linear-gradient(to right,  rgba(0,75,132,0.65) 0%,rgba(0,0,0,0) 100%); /* W3C */
+       filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#a6004b84', endColorstr='#00000000',GradientType=1 ); /* IE6-9 */
+       padding:10px 10px 10px 20px;
+       line-height:22px;
+       font-weight: normal;
+       color: #44c4ff;
+       margin-left:-20px;
+    }
+    .note {
+       background: -moz-linear-gradient(left,  rgba(130,0,2,0.65) 0%, rgba(0,0,0,0) 100%); /* FF3.6+ */
+       background: -webkit-gradient(linear, left top, right top, color-stop(0%,rgba(130,0,2,0.65)), color-stop(100%,rgba(0,0,0,0))); /* Chrome,Safari4+ */
+       background: -webkit-linear-gradient(left,  rgba(130,0,2,0.65) 0%,rgba(0,0,0,0) 100%); /* Chrome10+,Safari5.1+ */
+       background: -o-linear-gradient(left,  rgba(130,0,2,0.65) 0%,rgba(0,0,0,0) 100%); /* Opera 11.10+ */
+       background: -ms-linear-gradient(left,  rgba(130,0,2,0.65) 0%,rgba(0,0,0,0) 100%); /* IE10+ */
+       background: linear-gradient(to right,  rgba(130,0,2,0.65) 0%,rgba(0,0,0,0) 100%); /* W3C */
+       filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#a6820002', endColorstr='#00000000',GradientType=1 ); /* IE6-9 */
+       color: #ffa3d7;
+    }
+    p.green {
+       background: -moz-linear-gradient(left,  rgba(0,99,44,1) 0%, rgba(255,255,255,0) 100%); /* FF3.6+ */
+       background: -webkit-gradient(linear, left top, right top, color-stop(0%,rgba(0,99,44,1)), color-stop(100%,rgba(255,255,255,0))); /* Chrome,Safari4+ */
+       background: -webkit-linear-gradient(left,  rgba(0,99,44,1) 0%,rgba(255,255,255,0) 100%); /* Chrome10+,Safari5.1+ */
+       background: -o-linear-gradient(left,  rgba(0,99,44,1) 0%,rgba(255,255,255,0) 100%); /* Opera 11.10+ */
+       background: -ms-linear-gradient(left,  rgba(0,99,44,1) 0%,rgba(255,255,255,0) 100%); /* IE10+ */
+       background: linear-gradient(to right,  rgba(0,99,44,1) 0%,rgba(255,255,255,0) 100%); /* W3C */
+       filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00632c', endColorstr='#00ffffff',GradientType=1 ); /* IE6-9 */
+       padding:8px;
+       margin: 5px 0px 5px 0px;
+    }
+    #toTop {z-index:999999}
+    h2{ 
+       margin-top: 0px;
+       margin-bottom:5px;
+       font-weight:900;
+       color: #ffefb6;
+    }
+    .b{ -webkit-writing-mode: vertical-rl;writing-mode:tb-lr; }
+    fieldset {
+      border: #777777 1px solid;
+      padding:5px;
+    }
+    legend {
+        padding-left: 6px;
+        padding-right: 6px;
+    }
+  </style>
+  <style>
+    .readmore-js-toggle, .readmore-js-section { display: block; width: 100%; }
+    .readmore-js-section { overflow: hidden; }
+  </style> -->
 
 </head>
 
