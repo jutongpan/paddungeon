@@ -14,27 +14,29 @@ dt_Type <- setDT(dbReadTable(conn, "Type"))
 dbDisconnect(conn)
 dt_Type[, TypeLinkOriginal := gsub(x = TypeIconDownload, pattern = "http://pad.skyozora.com/", replacement = "")]
 
+options(HTTPUserAgent = "Mozilla/5.0 (iPhone; CPU iPhone OS 12_2 like Mac OS X)")
+
 extractDungeonInfo <- function(link) {
-  
+
   webpage <- read_html(link)
-  
+
   nodes_table <- webpage %>% html_nodes('table')
-  
+
   loc_node_dungeonInfo <- which(grepl(x = html_text(nodes_table), pattern = "^層數"))
-  
+
   dungeonInfo <- toString(nodes_table[[loc_node_dungeonInfo]])
-  
+
 }
 
 cleanDungeonInfo <- function(dungeonInfo) {
-  
+
   # Replace image source for monster icons
   dungeonInfo <- gsub(
     x = dungeonInfo,
-    pattern = "<a href=\"pets/([0-9]{1,4})\" (class=\"tooltip\" title=.*?)<img.*?</a>",
-    replacement = "<a \\2<img src=\"https://raw.githubusercontent.com/jutongpan/paddata/master/img/MonsterIcon/\\1.png\" width=\"40\" height=\"40\"></a>"
+    pattern = "<a href=\"pets/([0-9]{1,4})\" (class=\"tooltip\" title=.*?)<img.*?(.png.*?)</a>",
+    replacement = "<a \\2<img src=\"https://raw.githubusercontent.com/jutongpan/paddata/master/img/MonsterIcon/\\1\\3</a>"
   )
-  
+
   # Replace type icon
   for (i in dt_Type$TypeId) {
     dungeonInfo <- gsub(
@@ -43,28 +45,28 @@ cleanDungeonInfo <- function(dungeonInfo) {
       replacement = paste0("<img src=\"https://raw.githubusercontent.com/jutongpan/paddata/master/img/Type/", i, ".png")
     )
   }
-  
+
   # Replace image source for drops/orbs
   dungeonInfo <- gsub(
     x = dungeonInfo,
     pattern = "<img src=\"images/drops/(.*?).png",
     replacement = "<img src=\"https://raw.githubusercontent.com/jutongpan/paddata/master/img/Orb/\\1.png"
-  )  
-  
+  )
+
   # Replace change.gif
   dungeonInfo <- gsub(
     x = dungeonInfo,
     pattern = "<img src=\"images/change.gif\">",
     replacement = "變為"
   )
-  
+
   # Replace money
   dungeonInfo <- gsub(
     x = dungeonInfo,
     pattern = "<img src=\"images/money.png\" width=\"25\" alt=\"錢箱\"> ",
     replacement = "錢箱"
   )
-  
+
 }
 
 saveDungeonInfoAsHtml <- function(x) {
@@ -73,7 +75,7 @@ saveDungeonInfoAsHtml <- function(x) {
     cleanDungeonInfo(extractDungeonInfo(x["dungeonLink"])),
     paste0("templates/dungeonHtml/", x["dungeonName"], ".html")
   )
-  
+
 }
 
 dt_dungeon <- data.table(
