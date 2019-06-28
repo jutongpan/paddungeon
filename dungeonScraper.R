@@ -33,8 +33,8 @@ cleanDungeonInfo <- function(dungeonInfo) {
   # Replace image source for monster icons
   dungeonInfo <- gsub(
     x = dungeonInfo,
-    pattern = "<a href=\"pets/([0-9]{1,4})\" (class=\"tooltip\" title=.*?)<img.*?(.png.*?)</a>",
-    replacement = "<a \\2<img src=\"https://raw.githubusercontent.com/jutongpan/paddata/master/img/MonsterIcon/\\1\\3</a>"
+    pattern = "<a href=\"pets/([0-9]{1,4})\".*?(.png.*?)</a>",
+    replacement = "<img src=\"https://raw.githubusercontent.com/jutongpan/paddata/master/img/MonsterIcon/\\1\\2</a>"
   )
 
   # Replace type icon
@@ -63,7 +63,7 @@ cleanDungeonInfo <- function(dungeonInfo) {
   # Replace money
   dungeonInfo <- gsub(
     x = dungeonInfo,
-    pattern = "<img src=\"images/money.png\" width=\"25\" alt=\"錢箱\"> ",
+    pattern = "<img src=\"images/money.png\".*?> ",
     replacement = "錢箱"
   )
 
