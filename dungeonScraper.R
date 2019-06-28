@@ -5,10 +5,12 @@ library(DBI)
 
 if (Sys.info()[["nodename"]] == "jpan-personal") {
   setwd("/home/jpan/paddungeon")
+} else if (Sys.info()[["nodename"]] == "MU-JPAN") {
+  setwd("C:/Users/jpan/Documents/repo/paddungeon")
 }
 
 temp <- tempfile()
-download.file("https://raw.githubusercontent.com/jutongpan/paddata/master/padmonster.sqlite3", temp)
+download.file("https://raw.githubusercontent.com/jutongpan/paddata/master/padmonster.sqlite3", temp, mode = "wb")
 conn <- dbConnect(SQLite(), temp)
 dt_Type <- setDT(dbReadTable(conn, "Type"))
 dbDisconnect(conn)
@@ -36,7 +38,7 @@ cleanDungeonInfo <- function(dungeonInfo) {
     pattern = "<a href=\"pets/([0-9]{1,4})\".*?.png(.*?)</a>",
     replacement = "<img src=\"https://raw.githubusercontent.com/jutongpan/paddata/master/img/MonsterIcon/\\1.png\\2"
   )
-  
+
   dungeonInfo <- gsub(
     x = dungeonInfo,
     pattern = ".png%20\"",
@@ -79,7 +81,8 @@ saveDungeonInfoAsHtml <- function(x) {
 
   writeLines(
     cleanDungeonInfo(extractDungeonInfo(x["dungeonLink"])),
-    paste0("templates/dungeonHtml/", x["dungeonName"], ".html")
+    paste0("templates/dungeonHtml/", x["dungeonName"], ".html"),
+    useBytes = (Sys.info()[["sysname"]] == "Windows")
   )
 
 }

@@ -30,6 +30,33 @@
     }
   </style>
 
+  <script type="text/javascript">
+  function open_skill(num1, num2){
+    var skillNum = '#skill' + num1 + '_' + num2 ;
+    var imgNum =  '.s' + num1 + '_' + num2;
+    var open_key = $( skillNum ).css("display");
+    if (open_key == 'none') {
+      $( skillNum ).css('display','block');
+      $( imgNum ).html('↓隱藏');
+    } else {
+      $( skillNum ).css('display','none');
+      $( imgNum ).html('→打開');
+    }
+  }
+  function open_menu(num1, num2, num3, num4, num5){
+    var skillNum = '#skill' + num1 + '_' + num2 + '_' + num3 + '_' + num4 + '_' + num5;
+    var imgNum =  '.s' + num1 + '_' + num2 + '_' + num3 + '_' + num4 + '_' + num5;
+    var open_key = $( skillNum ).css("display");
+    if (open_key == 'none') {
+      $( skillNum ).css('display','block');
+      $( imgNum ).html('↓隱藏');
+    } else {
+      $( skillNum ).css('display','none');
+      $( imgNum ).html('查看位置');
+    }
+  }
+  </script>
+
 <!--   <style>
     img.scap { 
        width:120px;
@@ -116,9 +143,6 @@
 <body>
 
 {% include dungeon %}
-
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
 </body>
 </html>
