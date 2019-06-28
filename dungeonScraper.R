@@ -9,6 +9,8 @@ if (Sys.info()[["nodename"]] == "jpan-personal") {
   setwd("C:/Users/jpan/Documents/repo/paddungeon")
 }
 
+dt_dungeon <- fread("dungeon.csv", encoding = "UTF-8")
+
 temp <- tempfile()
 download.file("https://raw.githubusercontent.com/jutongpan/paddata/master/padmonster.sqlite3", temp, mode = "wb")
 conn <- dbConnect(SQLite(), temp)
@@ -77,25 +79,17 @@ cleanDungeonInfo <- function(dungeonInfo) {
 
 }
 
-saveDungeonInfoAsHtml <- function(x) {
+saveDungeonInfoAsHtml <- function(x, overwrite = T) {
 
-  writeLines(
-    cleanDungeonInfo(extractDungeonInfo(x["dungeonLink"])),
-    paste0("templates/dungeonHtml/", x["dungeonName"], ".html"),
-    useBytes = (Sys.info()[["sysname"]] == "Windows")
-  )
+  filename <- paste0("templates/dungeonHtml/", x["dungeonName"], ".html")
+  if (overwrite || !file.exists(filename)) {
+    writeLines(
+      cleanDungeonInfo(extractDungeonInfo(x["dungeonLink"])),
+      filename,
+      useBytes = (Sys.info()[["sysname"]] == "Windows")
+    )
+  }
 
 }
 
-dt_dungeon <- data.table(
-  dungeonName = c(
-    "六天の星霜龍",
-    "異形の存在"
-  ),
-  dungeonLink = c(
-    "http://pad.skyozora.com/stage/%E3%83%98%E3%82%AD%E3%82%B5%E3%82%BC%E3%82%AA%E3%83%B3%E9%99%8D%E8%87%A8%EF%BC%81/%E5%85%AD%E5%A4%A9%E3%81%AE%E6%98%9F%E9%9C%9C%E9%BE%8D%20%E5%A3%8A%E6%BB%85%E7%B4%9A",
-    "http://pad.skyozora.com/stage/%E6%A5%B5%E9%99%90%E3%81%AE%E9%97%98%E6%8A%80%E5%A0%B4/%E7%95%B0%E5%BD%A2%E3%81%AE%E5%AD%98%E5%9C%A8"
-  )
-)
-
-apply(X = dt_dungeon, MARGIN = 1, FUN = saveDungeonInfoAsHtml)
+apply(X = dt_dungeon, MARGIN = 1, FUN = saveDungeonInfoAsHtml, overwrite = F)
