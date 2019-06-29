@@ -25,13 +25,12 @@ app = Flask(__name__)
 app.wsgi_app = ReverseProxied(app.wsgi_app)
 
 df_dungeon = pd.read_csv("dungeon.csv")
-list_dungeonName = df_dungeon.dungeonName.tolist()
 
 @app.route('/')
 def index():
     return render_template(
         'index.html',
-        list_dungeonName = list_dungeonName
+        df_dungeon = df_dungeon
         )
 
 @app.route('/<dungeon>', methods=['GET', 'POST'])

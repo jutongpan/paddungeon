@@ -7,6 +7,8 @@ if (Sys.info()[["nodename"]] == "jpan-personal") {
   setwd("/home/jpan/paddungeon")
 } else if (Sys.info()[["nodename"]] == "MU-JPAN") {
   setwd("C:/Users/jpan/Documents/repo/paddungeon")
+} else if (Sys.info()[["nodename"]] == "JUTONG-X1C") {
+  setwd("C:/Users/jutong/Documents/repos/paddungeon")
 }
 
 dt_dungeon <- fread("dungeon.csv", encoding = "UTF-8")
@@ -45,6 +47,13 @@ cleanDungeonInfo <- function(dungeonInfo) {
     x = dungeonInfo,
     pattern = ".png%20\"",
     replacement = ".png\""
+  )
+
+  # Replace image source for monster icons in enemy skills
+  dungeonInfo <- gsub(
+    x = dungeonInfo,
+    pattern = "<a href=\"/pets/([0-9]{1,4})\"><img src=\"images/pets.*?.png.*?(width.*?)</a>",
+    replacement = "<img src=\"https://raw.githubusercontent.com/jutongpan/paddata/master/img/MonsterIcon/\\1.png\" \\2"
   )
 
   # Replace type icon

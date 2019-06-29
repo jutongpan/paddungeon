@@ -23,9 +23,16 @@
 
     <div class="well well-sm">
 
-      {% for dungeonName in list_dungeonName %}
-        <li><a href="{{ url_for('dungeonPage', dungeon = dungeonName) }}">{{ dungeonName }}</a></li>
+    <ul class="list-group">
+
+      {% for index, row in df_dungeon.iterrows() %}
+          <a class="list-group-item" href="{{ url_for('dungeonPage', dungeon = row['dungeonName']) }}">
+            <img src='{{ "https://raw.githubusercontent.com/jutongpan/paddata/master/img/MonsterIcon/" ~ row["dungeonBoss"] ~ ".png" }}' width="20">
+            {{ row['dungeonName'] }}
+          </a>
       {% endfor %}
+
+    </ul>
 
     </div>
 
