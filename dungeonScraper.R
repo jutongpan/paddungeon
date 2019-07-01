@@ -39,14 +39,14 @@ cleanDungeonInfo <- function(dungeonInfo) {
   # Replace image source for monster icons
   dungeonInfo <- gsub(
     x = dungeonInfo,
-    pattern = "<a href=\"pets/([0-9]{1,4})\".*?.png.*?\"(.*?)</a>",
+    pattern = "<a href=\"pets/([0-9]{1,4})\".*?.png[.| ]*?\"(.*?)</a>",
     replacement = "<img src=\"https://raw.githubusercontent.com/jutongpan/paddata/master/img/MonsterIcon/\\1.png\"\\2"
   )
 
   # Replace image source for monster icons in enemy skills
   dungeonInfo <- gsub(
     x = dungeonInfo,
-    pattern = "<a href=\"/pets/([0-9]{1,4})\"><img src=\"images/pets.*?.png.*?\"(.*?)</a>",
+    pattern = "<a href=\"/pets/([0-9]{1,4})\"><img src=\"images/pets.*?.png[.| ]*?\"(.*?)</a>",
     replacement = "<img src=\"https://raw.githubusercontent.com/jutongpan/paddata/master/img/MonsterIcon/\\1.png\"\\2"
   )
 
