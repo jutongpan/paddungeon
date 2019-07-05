@@ -40,6 +40,7 @@ def dungeonPage(dungeon):
 
     return render_template(
         'dungeonPage.html',
+        dungeonSeries = df_dungeon.loc[df_dungeon.dungeonName == dungeon].dungeonSeries.tolist()[0],
         dungeonName = dungeon,
         dungeonHtml = 'dungeonHtml/' + dungeon + '.html'
         )
