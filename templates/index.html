@@ -32,7 +32,7 @@
         {% for index, row in df_dungeon.loc[df_dungeon.dungeonType == dungeonType].iterrows() %}
           <a href="{{ url_for('dungeonPage', dungeon = row['dungeonName']) }}" class="list-group-item">
             <img src='{{ "https://raw.githubusercontent.com/jutongpan/paddata/master/img/MonsterIcon/" ~ row["dungeonBoss"] ~ ".png" }}' width="20">
-            {{ row['dungeonName'] }}
+            {{ row['dungeonSeries'] }} - {{ row['dungeonName'] }}
           </a>
         {% endfor %}
       {% endfor %}
