@@ -40,7 +40,10 @@ cleanDungeonInfo <- function(dungeonInfo) {
   dungeonInfo <- gsub(
     x = dungeonInfo,
     pattern = "<a href=\"pets/([0-9]{1,4})\".*?.png(.*?)</a>",
-    replacement = "<img src=\"https://raw.githubusercontent.com/jutongpan/paddata/master/img/MonsterIcon/\\1.png\\2"
+    replacement = paste0(
+      "<a href=\"/padmonster/?singleMonsterId=\\1\">",
+      "<img src=\"https://raw.githubusercontent.com/jutongpan/paddata/master/img/MonsterIcon/\\1.png\\2</a>"
+    )
   )
   
   dungeonInfo <- gsub(
@@ -53,7 +56,10 @@ cleanDungeonInfo <- function(dungeonInfo) {
   dungeonInfo <- gsub(
     x = dungeonInfo,
     pattern = "<a href=\"/pets/([0-9]{1,4})\"><img src=\"images/pets.*?.png[.| ]*?\"(.*?)</a>",
-    replacement = "<img src=\"https://raw.githubusercontent.com/jutongpan/paddata/master/img/MonsterIcon/\\1.png\"\\2"
+    replacement = paste0(
+      "<a href=\"/padmonster/?singleMonsterId=\\1\">",
+      "<img src=\"https://raw.githubusercontent.com/jutongpan/paddata/master/img/MonsterIcon/\\1.png\"\\2"
+    )
   )
 
   # Replace type icon
