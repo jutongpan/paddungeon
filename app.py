@@ -25,6 +25,7 @@ app = Flask(__name__)
 app.wsgi_app = ReverseProxied(app.wsgi_app)
 
 df_dungeon = pd.read_csv("dungeon.csv")
+df_dungeon = df_dungeon.loc[df_dungeon.archived == 0]
 
 @app.route('/')
 def index():
