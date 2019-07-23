@@ -6,7 +6,7 @@ library(DBI)
 if (Sys.info()[["nodename"]] == "jpan-personal") {
   setwd("/home/jpan/paddungeon")
 } else if (Sys.info()[["nodename"]] == "MU-JPAN") {
-  setwd("C:/Users/jpan/Documents/repo/paddungeon")
+  setwd("C:/Users/jpan/Documents/repos/paddungeon")
 } else if (Sys.info()[["nodename"]] == "JUTONG-X1C") {
   setwd("C:/Users/jutong/Documents/repos/paddungeon")
 }
