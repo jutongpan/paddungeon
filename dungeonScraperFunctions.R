@@ -11,7 +11,7 @@ extractDungeonInfo <- function(link) {
 }
 
 
-cleanDungeonInfo <- function(dungeonInfo, dbPath) {
+cleanDungeonInfo <- function(dungeonInfo, dt_Type) {
 
   # Replace image source for monster icons
   dungeonInfo <- gsub(
@@ -40,11 +40,6 @@ cleanDungeonInfo <- function(dungeonInfo, dbPath) {
   )
 
   # Replace type icon
-  conn <- dbConnect(SQLite(), dbPath)
-  dt_Type <- setDT(dbReadTable(conn, "Type"))
-  dbDisconnect(conn)
-  dt_Type[, TypeLinkOriginal := gsub(x = TypeIconDownload, pattern = "http://pad.skyozora.com/", replacement = "")]
-
   for (i in dt_Type$TypeId) {
     dungeonInfo <- gsub(
       x = dungeonInfo,

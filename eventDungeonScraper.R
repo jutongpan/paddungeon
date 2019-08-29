@@ -15,7 +15,9 @@ if (Sys.info()[["nodename"]] == "jpan-personal") {
 }
 dbPath <- file.path(dbPath, "paddata/padmonster.sqlite3")
 
-source("dungeonScraperFunctions.R")
+Sys.setlocale(category = "LC_ALL", locale = "chs")
+
+source("dungeonScraperFunctions.R", encoding = "utf-8")
 
 options(HTTPUserAgent = "Mozilla/5.0 (iPhone; CPU iPhone OS 12_2 like Mac OS X)")
 
@@ -62,8 +64,65 @@ filterEventDungeons <- function(links_eventDungeon) {
 }
 
 
+prepareDirStructure <- function(dt_eventDungeon) {
+
+  ## Get existing directories for event dungeons
+  names_dungeon <- list.dirs(
+    path = file.path("templates", "dungeonHtml"),
+    full.names = F,
+    recursive = F
+  )
+
+  ## Delete directories for obsolete event dungeons
+  names_obsoleteDungeon <- setdiff(names_dungeon, dt_eventDungeon$dungeonName)
+  unlink(file.path("templates", "dungeonHtml", names_obsoleteDungeon), recursive = T)
+
+  ## Add directories for new event dungeons
+  names_newDungeon <- setdiff(dt_eventDungeon$dungeonName, names_dungeon)
+  for (name_dungeon in names_newDungeon) {
+    dir.create(file.path("templates", "dungeonHtml", "event", name_dungeon), recursive = T)
+  }
+
+  return(names_newDungeon)
+
+}
+
+
+saveDungeonInfoAsHtml <- function(dt_eventDungeon, names_newDungeon, dbPath, URL_ROOT) {
+
+  conn <- dbConnect(SQLite(), dbPath)
+  dt_Type <- setDT(dbReadTable(conn, "Type"))
+  dbDisconnect(conn)
+  dt_Type[, TypeLinkOriginal := gsub(x = TypeIconDownload, pattern = "http://pad.skyozora.com/", replacement = "")]
+
+  for (name_dungeon in names_newDungeon) {
+
+    for (name_subDungeon in dt_eventDungeon[dungeonName==name_dungeon, subDungeonName]) {
+
+      link_subDungeon <- dt_eventDungeon[dungeonName==name_dungeon & subDungeonName == name_subDungeon, subDungeonLink]
+
+      writeLines(
+        text = cleanDungeonInfo(
+          dungeonInfo = extractDungeonInfo(paste0(URL_ROOT, "/", link_subDungeon)),
+          dt_Type = dt_Type
+        ),
+        con = file.path("templates", "dungeonHtml", "event", name_dungeon, paste0(name_subDungeon, ".html")),
+        useBytes = (Sys.info()[["sysname"]] == "Windows")
+      )
+
+    }
+
+  }
+
+}
+
+
 links_eventDungeon <- extractEventDungeonLinks(URL_ROOT) %>% filterEventDungeons()
 
 dt_eventDungeon <- rbindlist(lapply(links_eventDungeon, extractSubDungeons, URL_ROOT = URL_ROOT))
 
+names_newDungeon <- prepareDirStructure(dt_eventDungeon)
 
+saveDungeonInfoAsHtml(dt_eventDungeon, names_newDungeon, dbPath, URL_ROOT)
+
+fwrite(dt_eventDungeon, "eventDungeon.csv")
