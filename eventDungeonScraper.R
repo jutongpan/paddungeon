@@ -9,13 +9,13 @@ if (Sys.info()[["nodename"]] == "jpan-personal") {
 } else if (Sys.info()[["nodename"]] == "MU-JPAN") {
   setwd("C:/Users/jpan/Documents/repos/paddungeon")
   dbPath <- "C:/Users/jpan/Documents/repos"
+  Sys.setlocale(category = "LC_ALL", locale = "chs")
 } else if (Sys.info()[["nodename"]] == "JUTONG-X1C") {
   setwd("C:/Users/jutong/Documents/repos/paddungeon")
   dbPath <- "C:/Users/jutong/Documents/repos"
+  Sys.setlocale(category = "LC_ALL", locale = "chs")
 }
 dbPath <- file.path(dbPath, "paddata/padmonster.sqlite3")
-
-Sys.setlocale(category = "LC_ALL", locale = "chs")
 
 source("dungeonScraperFunctions.R", encoding = "utf-8")
 
