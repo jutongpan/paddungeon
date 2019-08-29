@@ -26,12 +26,14 @@ app.wsgi_app = ReverseProxied(app.wsgi_app)
 
 df_dungeon = pd.read_csv("dungeon.csv")
 df_dungeon = df_dungeon.loc[df_dungeon.archived == 0]
+df_eventDungeon = pd.read_csv("eventDungeon.csv")
 
 @app.route('/')
 def index():
     return render_template(
         'index.html',
-        df_dungeon = df_dungeon
+        df_dungeon = df_dungeon,
+        df_eventDungeon = df_eventDungeon
         )
 
 @app.route('/<dungeon>', methods=['GET', 'POST'])
@@ -44,6 +46,18 @@ def dungeonPage(dungeon):
         dungeonSeries = df_dungeon.loc[df_dungeon.dungeonName == dungeon].dungeonSeries.tolist()[0],
         dungeonName = dungeon,
         dungeonHtml = 'dungeonHtml/' + dungeon + '.html'
+        )
+
+@app.route('/<dungeon>/<subDungeon>', methods=['GET', 'POST'])
+def subDungeonPage(dungeon, subDungeon):
+    if request.method == 'POST':
+        return redirect(url_for('index'))
+
+    return render_template(
+        'dungeonPage.html',
+        dungeonSeries = dungeon,
+        dungeonName = subDungeon,
+        dungeonHtml = 'dungeonHtml/event/' + dungeon + '/' + subDungeon + '.html'
         )
 
 if __name__ == '__main__':
