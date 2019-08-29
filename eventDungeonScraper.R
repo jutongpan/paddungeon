@@ -19,14 +19,14 @@ dbPath <- file.path(dbPath, "paddata/padmonster.sqlite3")
 
 source("dungeonScraperFunctions.R", encoding = "utf-8")
 
-options(HTTPUserAgent = "Mozilla/5.0 (iPhone; CPU iPhone OS 12_2 like Mac OS X)")
+# options(HTTPUserAgent = "Mozilla/5.0 (iPhone; CPU iPhone OS 12_2 like Mac OS X)")
 
 URL_ROOT <- "http://pad.skyozora.com"
 
 
 extractEventDungeonLinks <- function(URL_ROOT) {
 
-  homepage <- read_html(URL_ROOT)
+  homepage <- readHtmlMobileIgnoreSSL(URL_ROOT)
 
   nodes_table <- homepage %>% html_nodes('table')
 

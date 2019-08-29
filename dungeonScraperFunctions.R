@@ -1,6 +1,19 @@
+readHtmlMobileIgnoreSSL <- function(url) {
+
+  read_html(
+    httr::GET(
+      url = url,
+      httr::add_headers("user_agent" = "Mozilla/5.0 (iPhone; CPU iPhone OS 12_2 like Mac OS X)"),
+      config = httr::config(ssl_verifypeer = F)
+    )
+  )
+
+}
+
+
 extractDungeonInfo <- function(link) {
 
-  webpage <- read_html(link)
+  webpage <- readHtmlMobileIgnoreSSL(link)
 
   nodes_table <- webpage %>% html_nodes('table')
 
@@ -74,7 +87,7 @@ cleanDungeonInfo <- function(dungeonInfo, dt_Type) {
 
 extractSubDungeons <- function(link_dungeon, URL_ROOT) {
 
-  dungeonPage <- read_html(
+  dungeonPage <- readHtmlMobileIgnoreSSL(
     paste0(URL_ROOT, link_dungeon) %>% 
       gsub(pattern = " ", replacement = "%20")
   )
