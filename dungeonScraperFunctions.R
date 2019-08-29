@@ -58,7 +58,7 @@ cleanDungeonInfo <- function(dungeonInfo, dt_Type) {
   # Replace change.gif
   dungeonInfo <- gsub(
     x = dungeonInfo,
-    pattern = "<img src=\"images/change.gif\">",
+    pattern = "<img src=\"images/change.gif\".*?>",
     replacement = "變為"
   )
 

@@ -39,13 +39,13 @@ a:active {
 img {
 	vertical-align:middle;
 }
-hr {
+/*hr {
 	border: 0;
 	height: 20px;
 	background-image: url(../images/hr4.png);
 	background-repeat: no-repeat;
 	background-position: center;
-}
+}*/
 
 .green { color:#99ef88; }
 .orange {color: #FF8800;}
