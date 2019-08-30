@@ -30,7 +30,7 @@
       </div>
 
       {% for dungeonName in df_eventDungeon.dungeonName.unique() %}
-          <a class="list-group-item" data-toggle="collapse" data-target="#eventDungeon{{ loop.index }}">
+          <a class="list-group-item" data-toggle="collapse" href="#eventDungeon{{ loop.index }}">
             <img src='{{ "https://raw.githubusercontent.com/jutongpan/paddata/master/img/MonsterIcon/" ~ df_eventDungeon.loc[df_eventDungeon.dungeonName == dungeonName].subDungeonBossId.tolist()[0] ~ ".png" }}' width="18">
             {{ dungeonName }}
           </a>
