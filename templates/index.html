@@ -28,23 +28,31 @@
       <div style="margin-top: 15px; text-align: center;">
         <h4>{{ "活動地下城" }}</h4>
       </div>
-      {% for index, row in df_eventDungeon.iterrows() %}
-        <a href="{{ url_for('subDungeonPage', dungeon = row['dungeonName'], subDungeon = row['subDungeonName']) }}" class="list-group-item">
-          <!-- <img src='{{ "https://raw.githubusercontent.com/jutongpan/paddata/master/img/MonsterIcon/" ~ row["dungeonBoss"] ~ ".png" }}' width="20"> -->
-          {{ row['dungeonName'] }} - {{ row['subDungeonName'] }}
-        </a>
+
+      {% for dungeonName in df_eventDungeon.dungeonName.unique() %}
+          <a class="list-group-item" data-toggle="collapse" data-target="#eventDungeon{{ loop.index }}">{{ dungeonName }}</a>
+          <div id="eventDungeon{{ loop.index }}" class="collapse">
+            {% for index, row in df_eventDungeon.loc[df_eventDungeon.dungeonName == dungeonName].iterrows() %}
+                <a href="{{ url_for('subDungeonPage', dungeon = dungeonName, subDungeon = row['subDungeonName']) }}" class="list-group-item" style="padding-left: 35px; padding-top: 8px; padding-bottom: 8px; background-color: #272B30;">
+                  {{ row['subDungeonName'] }}
+                </a>
+            {% endfor %}
+          </div>
       {% endfor %}
 
       {% for dungeonType in df_dungeon.dungeonType.unique() %}
+
         <div style="margin-top: 15px; text-align: center;">
           <h4>{{ dungeonType }}</h4>
         </div>
+
         {% for index, row in df_dungeon.loc[df_dungeon.dungeonType == dungeonType].iterrows() %}
           <a href="{{ url_for('dungeonPage', dungeon = row['dungeonName']) }}" class="list-group-item">
             <img src='{{ "https://raw.githubusercontent.com/jutongpan/paddata/master/img/MonsterIcon/" ~ row["dungeonBoss"] ~ ".png" }}' width="20">
             {{ row['dungeonSeries'] }} - {{ row['dungeonName'] }}
           </a>
         {% endfor %}
+  
       {% endfor %}
 
     </ul>
@@ -52,6 +60,10 @@
     </div>
 
   </div>
+
+
+  <script src="{{ url_for('static', filename='js/jquery.min.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
 
 
 
