@@ -102,12 +102,23 @@ extractSubDungeons <- function(link_dungeon, URL_ROOT) {
 
   names_subDungeon <- names_stage[grep(x = links_stage, pattern = "stage/")]
 
+  links_img <- dungeonPage %>% html_nodes(".content li div a img") %>% html_attr("data-original")
+
+  links_imgBoss <- links_img[!is.na(links_img)]
+
+  ids_boss <- gsub(
+    x = links_imgBoss,
+    pattern = "https://i1296.photobucket.com/albums/ag18/skyozora/pets_icon[0-9]?/([0-9]{1,4})_.*?.png",
+    replacement = "\\1"
+  ) %>% as.integer()
+
   return(
     data.table(
       dungeonLink = link_dungeon,
       dungeonName = gsub(x = link_dungeon, pattern = "^/s/", replacement = ""),
       subDungeonLink = links_subDungeon,
-      subDungeonName = names_subDungeon
+      subDungeonName = names_subDungeon,
+      subDungeonBossId = ids_boss
     )
   )
 

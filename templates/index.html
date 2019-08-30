@@ -30,10 +30,14 @@
       </div>
 
       {% for dungeonName in df_eventDungeon.dungeonName.unique() %}
-          <a class="list-group-item" data-toggle="collapse" data-target="#eventDungeon{{ loop.index }}">{{ dungeonName }}</a>
+          <a class="list-group-item" data-toggle="collapse" data-target="#eventDungeon{{ loop.index }}">
+            <img src='{{ "https://raw.githubusercontent.com/jutongpan/paddata/master/img/MonsterIcon/" ~ df_eventDungeon.loc[df_eventDungeon.dungeonName == dungeonName].subDungeonBossId.tolist()[0] ~ ".png" }}' width="18">
+            {{ dungeonName }}
+          </a>
           <div id="eventDungeon{{ loop.index }}" class="collapse">
             {% for index, row in df_eventDungeon.loc[df_eventDungeon.dungeonName == dungeonName].iterrows() %}
-                <a href="{{ url_for('subDungeonPage', dungeon = dungeonName, subDungeon = row['subDungeonName']) }}" class="list-group-item" style="padding-left: 35px; padding-top: 8px; padding-bottom: 8px; background-color: #272B30;">
+                <a href="{{ url_for('subDungeonPage', dungeon = dungeonName, subDungeon = row['subDungeonName']) }}" class="list-group-item" style="padding-left: 25px; padding-top: 8px; padding-bottom: 8px; background-color: #272B30;">
+                  <img src='{{ "https://raw.githubusercontent.com/jutongpan/paddata/master/img/MonsterIcon/" ~ row["subDungeonBossId"] ~ ".png" }}' width="18">
                   {{ row['subDungeonName'] }}
                 </a>
             {% endfor %}
@@ -52,7 +56,7 @@
             {{ row['dungeonSeries'] }} - {{ row['dungeonName'] }}
           </a>
         {% endfor %}
-  
+
       {% endfor %}
 
     </ul>
