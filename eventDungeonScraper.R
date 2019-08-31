@@ -132,9 +132,9 @@ saveDungeonInfoAsHtml(dt_eventDungeon, names_newDungeon, dbPath, URL_ROOT)
 
 fwrite(dt_eventDungeon, "eventDungeon.csv")
 
-print(Sys.time())
-print("Deleted obsolete event dungeons:")
+message(Sys.time())
+message("Deleted obsolete event dungeons:")
 print(names_obsoleteDungeon)
-print("Added new event dungeons:")
+message("Added new event dungeons:")
 print(names_newDungeon)
-print("")
+message("")
