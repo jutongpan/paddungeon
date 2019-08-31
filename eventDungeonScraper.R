@@ -1,3 +1,4 @@
+library(xml2)
 library(rvest)
 library(data.table)
 library(RSQLite)
@@ -68,14 +69,14 @@ prepareDirStructure <- function(dt_eventDungeon) {
 
   ## Get existing directories for event dungeons
   names_dungeon <- list.dirs(
-    path = file.path("templates", "dungeonHtml"),
+    path = file.path("templates", "dungeonHtml", "event"),
     full.names = F,
     recursive = F
   )
 
   ## Delete directories for obsolete event dungeons
   names_obsoleteDungeon <- setdiff(names_dungeon, dt_eventDungeon$dungeonName)
-  unlink(file.path("templates", "dungeonHtml", names_obsoleteDungeon), recursive = T)
+  unlink(file.path("templates", "dungeonHtml", "event", names_obsoleteDungeon), recursive = T)
 
   ## Add directories for new event dungeons
   names_newDungeon <- setdiff(dt_eventDungeon$dungeonName, names_dungeon)
@@ -83,7 +84,9 @@ prepareDirStructure <- function(dt_eventDungeon) {
     dir.create(file.path("templates", "dungeonHtml", "event", name_dungeon), recursive = T)
   }
 
-  return(names_newDungeon)
+  return(
+    list(names_obsoleteDungeon = names_obsoleteDungeon, names_newDungeon = names_newDungeon)
+  )
 
 }
 
@@ -121,8 +124,17 @@ links_eventDungeon <- extractEventDungeonLinks(URL_ROOT) %>% filterEventDungeons
 
 dt_eventDungeon <- rbindlist(lapply(links_eventDungeon, extractSubDungeons, URL_ROOT = URL_ROOT))
 
-names_newDungeon <- prepareDirStructure(dt_eventDungeon)
+output_prepareDirStructure <- prepareDirStructure(dt_eventDungeon)
+names_obsoleteDungeon <- output_prepareDirStructure$names_obsoleteDungeon
+names_newDungeon <- output_prepareDirStructure$names_newDungeon
 
 saveDungeonInfoAsHtml(dt_eventDungeon, names_newDungeon, dbPath, URL_ROOT)
 
 fwrite(dt_eventDungeon, "eventDungeon.csv")
+
+print(Sys.time())
+print("Deleted obsolete event dungeons:")
+print(names_obsoleteDungeon)
+print("Added new event dungeons:")
+print(names_newDungeon)
+print("")
