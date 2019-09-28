@@ -17,17 +17,17 @@ dbPath <- file.path(dbPath, "paddata/padmonster.sqlite3")
 
 source("dungeonScraperFunctions.R")
 
-options(HTTPUserAgent = "Mozilla/5.0 (iPhone; CPU iPhone OS 12_2 like Mac OS X)")
+# options(HTTPUserAgent = "Mozilla/5.0 (iPhone; CPU iPhone OS 12_2 like Mac OS X)")
 
 
-saveDungeonInfoAsHtml <- function(x, dbPath, overwrite = T) {
+saveDungeonInfoAsHtml <- function(x, dt_Type, overwrite = T) {
 
   filename <- paste0("templates/dungeonHtml/", x["dungeonName"], ".html")
   if (overwrite || !file.exists(filename)) {
     writeLines(
       text = cleanDungeonInfo(
         dungeonInfo = extractDungeonInfo(x["dungeonLink"]),
-        dbPath = dbPath
+        dt_Type = dt_Type
       ),
       con = filename,
       useBytes = (Sys.info()[["sysname"]] == "Windows")
@@ -39,4 +39,9 @@ saveDungeonInfoAsHtml <- function(x, dbPath, overwrite = T) {
 
 dt_dungeon <- fread("dungeon.csv", encoding = "UTF-8")
 
-apply(X = dt_dungeon, MARGIN = 1, FUN = saveDungeonInfoAsHtml, dbPath = dbPath, overwrite = F)
+conn <- dbConnect(SQLite(), dbPath)
+dt_Type <- setDT(dbReadTable(conn, "Type"))
+dbDisconnect(conn)
+dt_Type[, TypeLinkOriginal := gsub(x = TypeIconDownload, pattern = "http://pad.skyozora.com/", replacement = "")]
+
+apply(X = dt_dungeon, MARGIN = 1, FUN = saveDungeonInfoAsHtml, dt_Type = dt_Type, overwrite = F)
