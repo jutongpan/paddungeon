@@ -108,7 +108,8 @@ extractSubDungeons <- function(link_dungeon, URL_ROOT) {
 
   ids_boss <- gsub(
     x = links_imgBoss,
-    pattern = "https://i1296.photobucket.com/albums/ag18/skyozora/pets_icon[0-9]?/([0-9]{1,4})_.*?.png",
+    # pattern = "https://i1296.photobucket.com/albums/ag18/skyozora/pets_icon[0-9]?/([0-9]{1,4})_.*?.png",
+    pattern = "images/pets/([0-9]{1,4}).png",
     replacement = "\\1"
   ) %>% as.integer()
 
