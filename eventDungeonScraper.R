@@ -124,6 +124,8 @@ links_eventDungeon <- extractEventDungeonLinks(URL_ROOT) %>% filterEventDungeons
 
 dt_eventDungeon <- rbindlist(lapply(links_eventDungeon, extractSubDungeons, URL_ROOT = URL_ROOT))
 
+dt_eventDungeon <- dt_eventDungeon[!is.na(subDungeonBossId)]
+
 output_prepareDirStructure <- prepareDirStructure(dt_eventDungeon)
 names_obsoleteDungeon <- output_prepareDirStructure$names_obsoleteDungeon
 names_newDungeon <- output_prepareDirStructure$names_newDungeon
