@@ -15,6 +15,8 @@ if (Sys.info()[["nodename"]] == "jpan-personal") {
 }
 dbPath <- file.path(dbPath, "paddata/padmonster.sqlite3")
 
+## If running in Windows, run the script in RStudio instead of sourcing
+## because sourcing cannot handle unicode characters
 source("dungeonScraperFunctions.R")
 
 # options(HTTPUserAgent = "Mozilla/5.0 (iPhone; CPU iPhone OS 12_2 like Mac OS X)")
